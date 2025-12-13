@@ -3,6 +3,7 @@ class SpriteKind:
     Machine = SpriteKind.create()
     Tree = SpriteKind.create()
     Button = SpriteKind.create()
+    Item = SpriteKind.create()
 
 def on_down_pressed():
     animation.run_image_animation(nena,
@@ -41,10 +42,10 @@ def on_up_pressed():
 controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
 
 def generar_arbol():
-    global x, y, arboles_actuales
+    global x, y, arbol, arboles_actuales
     x = randint(3, 8) * 30
     y = randint(3, 8) * 30
-    sprites.create(img("""
+    arbol = sprites.create(img("""
             ................................
             ................................
             ................................
@@ -78,37 +79,49 @@ def generar_arbol():
             ...............cebf.............
             ................ff..............
             """),
-        SpriteKind.Tree).set_position(x, y)
+        SpriteKind.Tree)
+    arbol.set_position(x, y)
     arboles_actuales += 1
 boton: Sprite = None
 arboles_actuales = 0
+arbol: Sprite = None
 y = 0
 x = 0
 nena: Sprite = None
-MAX_ARBOLES = 10
 tiles.set_current_tilemap(tilemap("""
     nivel1
     """))
+info.set_score(0)
 maquina_expendedora = sprites.create(assets.image("""
     miImagen
     """), SpriteKind.Machine)
-maquina_expendedora.set_position(56, 40)
 nena = sprites.create(assets.image("""
     nena-front
     """), SpriteKind.player)
+maquina_expendedora.set_position(56, 40)
 nena.set_position(56, 65)
 scene.camera_follow_sprite(nena)
 controller.move_sprite(nena)
+generar_arbol()
 
 def on_on_update():
     global boton
-    if arboles_actuales < MAX_ARBOLES:
-        generar_arbol()
     if nena.overlaps_with(maquina_expendedora):
         boton = sprites.create(assets.image("""
             miImagen0
             """), SpriteKind.Button)
-        boton.set_position(56, 40)
+        boton.set_position(56, 30)
+        if controller.B.is_pressed():
+            game.show_long_text("MENU", DialogLayout.CENTER)
     else:
-        sprites.destroy(boton)
+        sprites.destroy_all_sprites_of_kind(SpriteKind.Button)
+    if arbol.overlaps_with(nena):
+        boton = sprites.create(assets.image("""
+            miImagen1
+            """), SpriteKind.Button)
+        boton.set_position(arbol.x, arbol.y)
+        if controller.A.is_pressed():
+            sprites.destroy_all_sprites_of_kind(SpriteKind.Tree)
+            info.change_score_by(1)
+            generar_arbol()
 game.on_update(on_on_update)
