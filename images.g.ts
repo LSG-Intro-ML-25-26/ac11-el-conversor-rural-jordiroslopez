@@ -49,6 +49,32 @@ fdcbbddddddbbcdf
 fdffffffffffffdf
 ffffffffffffffff
 `;
+            case "image3":
+            case "miImagen0":return img`
+. . 2 2 2 2 2 2 2 2 2 . . 
+. 2 2 2 f f f f 2 2 2 2 . 
+2 2 2 2 f 2 2 2 f 2 2 2 2 
+2 2 2 2 f 2 2 2 f 2 2 2 2 
+2 2 2 2 f f f f 2 2 2 2 2 
+2 2 2 2 f 2 2 2 f 2 2 2 2 
+2 2 2 2 f 2 2 2 f 2 2 2 2 
+e 2 2 2 f f f f 2 2 2 2 e 
+. e 2 2 2 2 2 2 2 2 2 e . 
+. . e e e e e e e e e . . 
+`;
+            case "image4":
+            case "miImagen1":return img`
+. . 9 9 9 9 9 9 9 9 9 . . 
+. 9 9 9 9 f f f 9 9 9 9 . 
+9 9 9 9 f 9 9 9 f 9 9 9 9 
+9 9 9 9 f 9 9 9 f 9 9 9 9 
+9 9 9 9 f f f f f 9 9 9 9 
+9 9 9 9 f 9 9 9 f 9 9 9 9 
+9 9 9 9 f 9 9 9 f 9 9 9 9 
+6 9 9 9 f 9 9 9 f 9 9 9 6 
+. 6 9 9 9 9 9 9 9 9 9 6 . 
+. . 6 6 6 6 6 6 6 6 6 . . 
+`;
         }
         return null;
     })

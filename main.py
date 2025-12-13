@@ -2,6 +2,7 @@
 class SpriteKind:
     Machine = SpriteKind.create()
     Tree = SpriteKind.create()
+    Button = SpriteKind.create()
 
 def on_down_pressed():
     animation.run_image_animation(nena,
@@ -40,7 +41,7 @@ def on_up_pressed():
 controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
 
 def generar_arbol():
-    global arboles_actuales
+    global x, y, arboles_actuales
     x = randint(3, 8) * 30
     y = randint(3, 8) * 30
     sprites.create(img("""
@@ -79,15 +80,19 @@ def generar_arbol():
             """),
         SpriteKind.Tree).set_position(x, y)
     arboles_actuales += 1
+boton: Sprite = None
 arboles_actuales = 0
+y = 0
+x = 0
 nena: Sprite = None
 MAX_ARBOLES = 10
 tiles.set_current_tilemap(tilemap("""
     nivel1
     """))
-sprites.create(assets.image("""
+maquina_expendedora = sprites.create(assets.image("""
     miImagen
-    """), SpriteKind.Machine).set_position(56, 40)
+    """), SpriteKind.Machine)
+maquina_expendedora.set_position(56, 40)
 nena = sprites.create(assets.image("""
     nena-front
     """), SpriteKind.player)
@@ -96,6 +101,14 @@ scene.camera_follow_sprite(nena)
 controller.move_sprite(nena)
 
 def on_on_update():
+    global boton
     if arboles_actuales < MAX_ARBOLES:
         generar_arbol()
+    if nena.overlaps_with(maquina_expendedora):
+        boton = sprites.create(assets.image("""
+            miImagen0
+            """), SpriteKind.Button)
+        boton.set_position(56, 40)
+    else:
+        sprites.destroy(boton)
 game.on_update(on_on_update)
