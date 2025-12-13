@@ -1,4 +1,4 @@
-// Auto-generated code. Do not edit.
+// Código generado automáticamente. No editar.
 namespace myImages {
 
     helpers._registerFactory("image", function(name: string) {
@@ -21,6 +21,33 @@ f f f c 3 c c c c 3 c f f f
 . 4 4 f 6 6 6 6 6 6 f 4 4 . 
 . . . . f f f f f f . . . . 
 . . . . f f . . f f . . . . 
+`;
+            case "image2":
+            case "miImagen":return img`
+.cccccccccccccc.
+cbddddddddddddbc
+cddddddddddddddc
+cddddddddddddddc
+cddddddddddddddc
+cddddddddddddddc
+cddddddddddddddc
+cbddddddddddddbc
+ccbbbbbbbbbbbbcc
+ccffffffffffffcc
+cbc44c7c66c3ccbc
+cbc44c7c66c3ccbc
+fbc44c7c66c3ccbf
+fdccccccccccccdf
+fdcbbddddddbbcdf
+fdffffffffffffdf
+fdcc4c44c3c7ccdf
+fdcc4c44c3c7ccdf
+fdcccc44ccc7ccdf
+fdccccccccccccdf
+fdcbbddddddbbcdf
+fdcbbddddddbbcdf
+fdffffffffffffdf
+ffffffffffffffff
 `;
         }
         return null;
@@ -252,4 +279,4 @@ f f f c 3 c c c c c c f . .
     })
 
 }
-// Auto-generated code. Do not edit.
+// Código generado automáticamente. No editar.

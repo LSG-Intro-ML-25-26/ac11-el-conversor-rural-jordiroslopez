@@ -4,6 +4,11 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "nena-front"
     },
+    "image2": {
+        "data": "hwQQABgAAADAzMzMzMz///////+83d29zLvb3d3d3f3c3d3d+8zM/MzMzP/c3d3d+0TE+8zMu//c3d3d+0TE+0TMu//c3d3d+8zM/czM3f/c3d3d+3fH/UTE3f/c3d3d+8zM/UTE3f/c3d3d+2bG/czM3f/c3d3d+2bG/TPM3f/c3d3d+8zM/czM3f/c3d3d+zPD+3fHu//c3d3d+8zM+8zMu//c3d3d+8zM/MzMzP+83d29zLvb3d3d3f3AzMzMzMz///////8=",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "miImagen"
+    },
     "anim1": {
         "namespace": "myAnimations",
         "id": "anim1",
