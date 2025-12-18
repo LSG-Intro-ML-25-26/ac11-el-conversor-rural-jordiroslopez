@@ -1,9 +1,24 @@
 @namespace
 class SpriteKind:
-    Machine = SpriteKind.create()
     Tree = SpriteKind.create()
     Button = SpriteKind.create()
     Item = SpriteKind.create()
+    Menu = SpriteKind.create()
+    Venta = SpriteKind.create()
+def revisar_arboles():
+    global boton
+    if arbol.overlaps_with(nena):
+        boton = sprites.create(assets.image("""
+            miImagen1
+            """), SpriteKind.Button)
+        boton.set_position(arbol.x, arbol.y)
+        if controller.A.is_pressed():
+            sprites.destroy_all_sprites_of_kind(SpriteKind.Tree)
+            sprites.destroy_all_sprites_of_kind(SpriteKind.Button)
+            info.change_score_by(1)
+            generar_arbol()
+    else:
+        sprites.destroy_all_sprites_of_kind(SpriteKind.Button)
 
 def on_down_pressed():
     animation.run_image_animation(nena,
@@ -32,6 +47,17 @@ def on_left_pressed():
         False)
 controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 
+def on_menu_pressed():
+    global myMenu
+    myMenu = miniMenu.create_menu_from_array([miniMenu.create_menu_item("Inventario"),
+            miniMenu.create_menu_item("Comprar")])
+    
+    def on_button_pressed(selection, selectedIndex):
+        myMenu.close()
+    myMenu.on_button_pressed(controller.A, on_button_pressed)
+    
+controller.menu.on_event(ControllerButtonEvent.PRESSED, on_menu_pressed)
+
 def on_up_pressed():
     animation.run_image_animation(nena,
         assets.animation("""
@@ -43,8 +69,8 @@ controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
 
 def generar_arbol():
     global x, y, arbol, arboles_actuales
-    x = randint(3, 8) * 30
-    y = randint(3, 8) * 30
+    x = randint(1, 7) * 30
+    y = randint(3, 7) * 30
     arbol = sprites.create(img("""
             ................................
             ................................
@@ -82,46 +108,33 @@ def generar_arbol():
         SpriteKind.Tree)
     arbol.set_position(x, y)
     arboles_actuales += 1
-boton: Sprite = None
+def habilitar_boton(mySprite: Sprite):
+    global boton
+    boton = sprites.create(assets.image("""
+        miImagen1
+        """), SpriteKind.Button)
+    boton.set_position(mySprite.x, mySprite.y - 10)
 arboles_actuales = 0
-arbol: Sprite = None
 y = 0
 x = 0
+myMenu: miniMenu.MenuSprite = None
+boton: Sprite = None
+arbol: Sprite = None
 nena: Sprite = None
 tiles.set_current_tilemap(tilemap("""
     nivel1
     """))
 info.set_score(0)
-maquina_expendedora = sprites.create(assets.image("""
-    miImagen
-    """), SpriteKind.Machine)
+menu_activo = False
 nena = sprites.create(assets.image("""
     nena-front
     """), SpriteKind.player)
-maquina_expendedora.set_position(56, 40)
-nena.set_position(56, 65)
+scene.center_camera_at(120, 0)
+nena.set_position(120, 55)
 scene.camera_follow_sprite(nena)
 controller.move_sprite(nena)
 generar_arbol()
 
 def on_on_update():
-    global boton
-    if nena.overlaps_with(maquina_expendedora):
-        boton = sprites.create(assets.image("""
-            miImagen0
-            """), SpriteKind.Button)
-        boton.set_position(56, 30)
-        if controller.B.is_pressed():
-            game.show_long_text("MENU", DialogLayout.CENTER)
-    else:
-        sprites.destroy_all_sprites_of_kind(SpriteKind.Button)
-    if arbol.overlaps_with(nena):
-        boton = sprites.create(assets.image("""
-            miImagen1
-            """), SpriteKind.Button)
-        boton.set_position(arbol.x, arbol.y)
-        if controller.A.is_pressed():
-            sprites.destroy_all_sprites_of_kind(SpriteKind.Tree)
-            info.change_score_by(1)
-            generar_arbol()
+    revisar_arboles()
 game.on_update(on_on_update)
