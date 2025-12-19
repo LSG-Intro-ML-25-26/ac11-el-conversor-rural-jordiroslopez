@@ -5,20 +5,6 @@ class SpriteKind:
     Item = SpriteKind.create()
     Menu = SpriteKind.create()
     Venta = SpriteKind.create()
-def revisar_arboles():
-    global boton
-    if arbol.overlaps_with(nena):
-        boton = sprites.create(assets.image("""
-            miImagen1
-            """), SpriteKind.Button)
-        boton.set_position(arbol.x, arbol.y)
-        if controller.A.is_pressed():
-            sprites.destroy_all_sprites_of_kind(SpriteKind.Tree)
-            sprites.destroy_all_sprites_of_kind(SpriteKind.Button)
-            info.change_score_by(1)
-            generar_arbol()
-    else:
-        sprites.destroy_all_sprites_of_kind(SpriteKind.Button)
 
 def on_down_pressed():
     animation.run_image_animation(nena,
@@ -47,16 +33,13 @@ def on_left_pressed():
         False)
 controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 
-def on_menu_pressed():
-    global myMenu
-    myMenu = miniMenu.create_menu_from_array([miniMenu.create_menu_item("Inventario"),
-            miniMenu.create_menu_item("Comprar")])
-    
-    def on_button_pressed(selection, selectedIndex):
-        myMenu.close()
-    myMenu.on_button_pressed(controller.A, on_button_pressed)
-    
-controller.menu.on_event(ControllerButtonEvent.PRESSED, on_menu_pressed)
+def talarArbol():
+    if arbol.overlaps_with(nena):
+        if controller.A.is_pressed():
+            sprites.destroy_all_sprites_of_kind(SpriteKind.Tree)
+            sprites.destroy_all_sprites_of_kind(SpriteKind.Button)
+            info.change_score_by(1)
+            generar_arbol()
 
 def on_up_pressed():
     animation.run_image_animation(nena,
@@ -108,33 +91,28 @@ def generar_arbol():
         SpriteKind.Tree)
     arbol.set_position(x, y)
     arboles_actuales += 1
-def habilitar_boton(mySprite: Sprite):
-    global boton
-    boton = sprites.create(assets.image("""
-        miImagen1
-        """), SpriteKind.Button)
-    boton.set_position(mySprite.x, mySprite.y - 10)
-arboles_actuales = 0
 y = 0
 x = 0
-myMenu: miniMenu.MenuSprite = None
-boton: Sprite = None
 arbol: Sprite = None
 nena: Sprite = None
 tiles.set_current_tilemap(tilemap("""
     nivel1
     """))
 info.set_score(0)
+arboles_actuales = 0
 menu_activo = False
+maquina_expendedora = sprites.create(assets.image("""
+    miImagen
+    """), SpriteKind.Venta)
 nena = sprites.create(assets.image("""
     nena-front
     """), SpriteKind.player)
-scene.center_camera_at(120, 0)
-nena.set_position(120, 55)
+maquina_expendedora.set_position(59, 25)
+nena.set_position(59, 55)
 scene.camera_follow_sprite(nena)
 controller.move_sprite(nena)
 generar_arbol()
 
-def on_on_update():
-    revisar_arboles()
-game.on_update(on_on_update)
+def on_forever():
+    talarArbol()
+forever(on_forever)

@@ -22,19 +22,6 @@ f f f c 3 c c c c 3 c f f f
 . . . . f f f f f f . . . . 
 . . . . f f . . f f . . . . 
 `;
-            case "image3":
-            case "miImagen0":return img`
-. . 2 2 2 2 2 2 2 2 2 . . 
-. 2 2 2 f f f f 2 2 2 2 . 
-2 2 2 2 f 2 2 2 f 2 2 2 2 
-2 2 2 2 f 2 2 2 f 2 2 2 2 
-2 2 2 2 f f f f 2 2 2 2 2 
-2 2 2 2 f 2 2 2 f 2 2 2 2 
-2 2 2 2 f 2 2 2 f 2 2 2 2 
-e 2 2 2 f f f f 2 2 2 2 e 
-. e 2 2 2 2 2 2 2 2 2 e . 
-. . e e e e e e e e e . . 
-`;
             case "image4":
             case "miImagen1":return img`
 . . 9 9 9 9 9 9 9 9 9 . . 
@@ -127,19 +114,6 @@ f e e e e f e e e e e e e f f
 . . . . f . f . . . f . f . . 
 . . . . f . f . . . f . f . . 
 `;
-            case "image10":
-            case "miImagen7":return img`
-. . . . . . . . . . . . . 
-. . 9 9 9 9 9 9 9 9 9 . . 
-. 9 9 9 9 f f f 9 9 9 9 . 
-9 9 9 9 f 9 9 9 f 9 9 9 9 
-9 9 9 9 f 9 9 9 f 9 9 9 9 
-9 9 9 9 f f f f f 9 9 9 9 
-9 9 9 9 f 9 9 9 f 9 9 9 9 
-9 9 9 9 f 9 9 9 f 9 9 9 9 
-. 9 9 9 f 9 9 9 f 9 9 9 . 
-. . 9 9 9 9 9 9 9 9 9 . . 
-`;
             case "image2":
             case "miImagen":return img`
 .cccccccccccccc.
@@ -167,6 +141,32 @@ fdcbbddddddbbcdf
 fdffffffffffffdf
 ffffffffffffffff
 `;
+            case "image3":
+            case "miImagen0":return img`
+. . 2 2 2 2 2 2 2 2 2 . . 
+. 2 2 2 f f f f 2 2 2 2 . 
+2 2 2 2 f 2 2 2 f 2 2 2 2 
+2 2 2 2 f 2 2 2 f 2 2 2 2 
+2 2 2 2 f f f f 2 2 2 2 2 
+2 2 2 2 f 2 2 2 f 2 2 2 2 
+2 2 2 2 f 2 2 2 f 2 2 2 2 
+e 2 2 2 f f f f 2 2 2 2 e 
+. e 2 2 2 2 2 2 2 2 2 e . 
+. . e e e e e e e e e . . 
+`;
+            case "image10":
+            case "miImagen7":return img`
+. . . . . . . . . . . . . 
+. . 9 9 9 9 9 9 9 9 9 . . 
+. 9 9 9 9 f f f 9 9 9 9 . 
+9 9 9 9 f 9 9 9 f 9 9 9 9 
+9 9 9 9 f 9 9 9 f 9 9 9 9 
+9 9 9 9 f f f f f 9 9 9 9 
+9 9 9 9 f 9 9 9 f 9 9 9 9 
+9 9 9 9 f 9 9 9 f 9 9 9 9 
+. 9 9 9 f 9 9 9 f 9 9 9 . 
+. . 9 9 9 9 9 9 9 9 9 . . 
+`;
             case "image11":
             case "miImagen8":return img`
 . . . . . . . . . . . . . . . . 
@@ -185,6 +185,38 @@ ffffffffffffffff
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
+`;
+            case "G,o_5D/^-D0:atMX,^@v":
+            case "aaa":return img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`;
+            case "image12":
+            case "miImagen9":return img`
+. . 4 4 4 4 4 4 4 4 4 . . 
+. 4 4 4 f 4 4 4 f 4 4 4 . 
+4 4 4 4 f f 4 f f 4 4 4 4 
+4 4 4 4 f 4 f 4 f 4 4 4 4 
+4 4 4 4 f 4 4 4 f 4 4 4 4 
+4 4 4 4 f 4 4 4 f 4 4 4 4 
+4 4 4 4 f 4 4 4 f 4 4 4 4 
+e 4 4 4 f 4 4 4 f 4 4 4 e 
+. e 4 4 4 4 4 4 4 4 4 e . 
+. . e e e e e e e e e . . 
 `;
         }
         return null;

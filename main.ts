@@ -5,16 +5,11 @@ namespace SpriteKind {
     export const Menu = SpriteKind.create()
     export const Venta = SpriteKind.create()
 }
-function revisar_arboles () {
-    if (arbol.overlapsWith(nena)) {
-        colocarBoton(nena, arbol)
-        if (controller.A.isPressed()) {
-            sprites.destroyAllSpritesOfKind(SpriteKind.Tree)
-            sprites.destroyAllSpritesOfKind(SpriteKind.Button)
-            info.changeScoreBy(1)
-            generar_arbol()
-        }
-    }
+function crearPlayer () {
+    nena = sprites.create(assets.image`nena-front`, SpriteKind.Player)
+    nena.setPosition(59, 40)
+    scene.cameraFollowSprite(nena)
+    controller.moveSprite(nena)
 }
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
@@ -40,20 +35,29 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     false
     )
 })
-function colocarBoton (mySprite: Sprite, mySprite2: Sprite) {
-    if (mySprite.overlapsWith(mySprite2)) {
-        boton = sprites.create(assets.image`miImagen1`, SpriteKind.Button)
-        boton.setPosition(mySprite2.x, mySprite2.y - 10)
-    } else {
-        sprites.destroyAllSpritesOfKind(SpriteKind.Button)
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (maquina_expendedora.overlapsWith(nena)) {
+        sprites.destroy(nena)
+        menu_maquina = miniMenu.createMenu(
+        miniMenu.createMenuItem("abc"),
+        miniMenu.createMenuItem("abc")
+        )
+        menu_maquina.onButtonPressed(controller.A, function (selection, selectedIndex) {
+            crearPlayer()
+            menu_maquina.close()
+        })
+    }
+})
+function talarArbol () {
+    if (arbol.overlapsWith(nena)) {
+        if (controller.A.isPressed()) {
+            sprites.destroyAllSpritesOfKind(SpriteKind.Tree)
+            sprites.destroyAllSpritesOfKind(SpriteKind.Button)
+            info.changeScoreBy(1)
+            generar_arbol()
+        }
     }
 }
-controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
-    myMenu = miniMenu.createMenuFromArray([miniMenu.createMenuItem("Inventario"), miniMenu.createMenuItem("Comprar")])
-    myMenu.onButtonPressed(controller.A, function (selection, selectedIndex) {
-        myMenu.close()
-    })
-})
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
     nena,
@@ -102,23 +106,34 @@ function generar_arbol () {
     arbol.setPosition(x, y)
     arboles_actuales += 1
 }
-let arboles_actuales = 0
+let boton_arbol: Sprite = null
+let menu_maquina_activa = false
+let boton_maquina: Sprite = null
 let y = 0
 let x = 0
-let myMenu: miniMenu.MenuSprite = null
-let boton: Sprite = null
 let arbol: Sprite = null
+let menu_maquina: miniMenu.MenuSprite = null
 let nena: Sprite = null
+let maquina_expendedora: Sprite = null
 tiles.setCurrentTilemap(tilemap`nivel1`)
 info.setScore(0)
-let maquina_expendedora = sprites.create(assets.image`miImagen`, SpriteKind.Venta)
-nena = sprites.create(assets.image`nena-front`, SpriteKind.Player)
+let arboles_actuales = 0
+maquina_expendedora = sprites.create(assets.image`miImagen`, SpriteKind.Venta)
 maquina_expendedora.setPosition(59, 25)
-nena.setPosition(59, 55)
-scene.cameraFollowSprite(nena)
-controller.moveSprite(nena)
+crearPlayer()
 generar_arbol()
 game.onUpdate(function () {
-    colocarBoton(nena, maquina_expendedora)
-    revisar_arboles()
+    talarArbol()
+    if (nena.overlapsWith(maquina_expendedora)) {
+        boton_maquina = sprites.create(assets.image`miImagen1`, SpriteKind.Button)
+        boton_maquina.setPosition(maquina_expendedora.x, maquina_expendedora.y - 10)
+        if (controller.A.isPressed()) {
+            menu_maquina_activa = true
+        }
+    } else if (nena.overlapsWith(arbol)) {
+        boton_arbol = sprites.create(assets.image`miImagen1`, SpriteKind.Button)
+        boton_arbol.setPosition(arbol.x, arbol.y)
+    } else {
+        sprites.destroyAllSpritesOfKind(SpriteKind.Button)
+    }
 })
