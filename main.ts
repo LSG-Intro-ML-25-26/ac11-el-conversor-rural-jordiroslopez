@@ -5,9 +5,9 @@ namespace SpriteKind {
     export const Menu = SpriteKind.create()
     export const Venta = SpriteKind.create()
 }
-function crearPlayer () {
+function crearPlayer (x: number, y: number) {
     nena = sprites.create(assets.image`nena-front`, SpriteKind.Player)
-    nena.setPosition(59, 40)
+    nena.setPosition(x, y)
     scene.cameraFollowSprite(nena)
     controller.moveSprite(nena)
 }
@@ -36,7 +36,8 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     )
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (maquina_expendedora.overlapsWith(nena)) {
+    if (maquina_expendedora.overlapsWith(nena) && (!(menu_maquina_activa) && !(menu_items_activo))) {
+        menu_maquina_activa = true
         sprites.destroy(nena)
         menu_maquina = miniMenu.createMenu(
         miniMenu.createMenuItem("Gallina = 6 troncos"),
@@ -59,7 +60,8 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
             } else if (selectedIndex == 4) {
                 n_caballo += efectuarCompra(12)
             }
-            crearPlayer()
+            crearPlayer(59, 45)
+            menu_maquina_activa = false
         })
     }
 })
@@ -74,21 +76,28 @@ function talarArbol () {
     }
 }
 controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
-    sprites.destroy(nena)
-    menu_items = miniMenu.createMenu(
-    miniMenu.createMenuItem(convertToText(n_gallina), assets.image`miImagen2`),
-    miniMenu.createMenuItem(convertToText(n_patata), assets.image`miImagen3`),
-    miniMenu.createMenuItem(convertToText(n_cabra), assets.image`miImagen4`),
-    miniMenu.createMenuItem(convertToText(n_huevos), assets.image`miImagen5`),
-    miniMenu.createMenuItem(convertToText(n_caballo), assets.image`miImagen6`),
-    miniMenu.createMenuItem("Salir")
-    )
-    menu_items.onButtonPressed(controller.A, function (selection, selectedIndex) {
-        if (selectedIndex == 5) {
-            menu_items.close()
-        }
-        crearPlayer()
-    })
+    if (!(menu_items_activo) && !(menu_maquina_activa)) {
+        menu_items_activo = true
+        sprites.destroy(nena)
+        player_x_actual = nena.x
+        player_y_actual = nena.y
+        menu_items = miniMenu.createMenu(
+        miniMenu.createMenuItem(convertToText(n_gallina), assets.image`miImagen2`),
+        miniMenu.createMenuItem(convertToText(n_patata), assets.image`miImagen3`),
+        miniMenu.createMenuItem(convertToText(n_cabra), assets.image`miImagen4`),
+        miniMenu.createMenuItem(convertToText(n_huevos), assets.image`miImagen5`),
+        miniMenu.createMenuItem(convertToText(n_caballo), assets.image`miImagen6`),
+        miniMenu.createMenuItem("Salir")
+        )
+        scene.cameraFollowSprite(menu_items)
+        menu_items.onButtonPressed(controller.A, function (selection, selectedIndex) {
+            if (selectedIndex == 5) {
+                menu_items_activo = false
+                crearPlayer(player_x_actual, player_y_actual)
+                menu_items.close()
+            }
+        })
+    }
 })
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
@@ -149,13 +158,16 @@ function generar_arbol () {
     arboles_actuales += 1
 }
 let boton_arbol: Sprite = null
-let menu_maquina_activa = false
 let boton_maquina: Sprite = null
 let y = 0
 let x = 0
 let menu_items: miniMenu.MenuSprite = null
+let player_y_actual = 0
+let player_x_actual = 0
 let arbol: Sprite = null
 let menu_maquina: miniMenu.MenuSprite = null
+let menu_items_activo = false
+let menu_maquina_activa = false
 let nena: Sprite = null
 let maquina_expendedora: Sprite = null
 let n_caballo = 0
@@ -173,7 +185,7 @@ n_huevos = 0
 n_caballo = 0
 maquina_expendedora = sprites.create(assets.image`miImagen`, SpriteKind.Venta)
 maquina_expendedora.setPosition(59, 25)
-crearPlayer()
+crearPlayer(59, 45)
 generar_arbol()
 game.onUpdate(function () {
     talarArbol()
