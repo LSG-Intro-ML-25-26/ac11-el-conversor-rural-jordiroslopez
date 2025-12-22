@@ -1,3 +1,5 @@
+# JORDI ROS LÓPEZ
+
 @namespace
 class SpriteKind:
     Tree = SpriteKind.create()
@@ -5,6 +7,14 @@ class SpriteKind:
     Item = SpriteKind.create()
     Menu = SpriteKind.create()
     Venta = SpriteKind.create()
+def crearPlayer(x: number, y: number):
+    global nena
+    nena = sprites.create(assets.image("""
+        nena-front
+        """), SpriteKind.player)
+    nena.set_position(x, y)
+    scene.camera_follow_sprite(nena)
+    controller.move_sprite(nena)
 
 def on_down_pressed():
     animation.run_image_animation(nena,
@@ -33,6 +43,37 @@ def on_left_pressed():
         False)
 controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 
+def on_a_pressed():
+    global menu_maquina_activa, menu_maquina
+    if maquina_expendedora.overlaps_with(nena) and (not (menu_maquina_activa) and not (menu_items_activo)):
+        menu_maquina_activa = True
+        sprites.destroy(nena)
+        menu_maquina = miniMenu.create_menu(miniMenu.create_menu_item("Gallina = 6 troncos"),
+            miniMenu.create_menu_item("Patatas(1.5kg) = 2 troncos"),
+            miniMenu.create_menu_item("Cabra = 5 troncos"),
+            miniMenu.create_menu_item("Huevos(12 un.) = 3 troncos"),
+            miniMenu.create_menu_item("Caballo = 12 troncos"),
+            miniMenu.create_menu_item("Salir"))
+        
+        def on_button_pressed(selection, selectedIndex):
+            global n_gallina, n_patata, n_cabra, n_huevos, n_caballo, menu_maquina_activa
+            menu_maquina.close()
+            if selectedIndex == 0:
+                n_gallina += efectuarCompra(6)
+            elif selectedIndex == 1:
+                n_patata += efectuarCompra(2)
+            elif selectedIndex == 2:
+                n_cabra += efectuarCompra(5)
+            elif selectedIndex == 3:
+                n_huevos += efectuarCompra(3)
+            elif selectedIndex == 4:
+                n_caballo += efectuarCompra(12)
+            crearPlayer(59, 45)
+            menu_maquina_activa = False
+        menu_maquina.on_button_pressed(controller.A, on_button_pressed)
+        
+controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
+
 def talarArbol():
     if arbol.overlaps_with(nena):
         if controller.A.is_pressed():
@@ -40,6 +81,46 @@ def talarArbol():
             sprites.destroy_all_sprites_of_kind(SpriteKind.Button)
             info.change_score_by(1)
             generar_arbol()
+
+def on_menu_pressed():
+    global menu_items_activo, player_x_actual, player_y_actual, menu_items
+    if not (menu_items_activo) and not (menu_maquina_activa):
+        menu_items_activo = True
+        sprites.destroy(nena)
+        player_x_actual = nena.x
+        player_y_actual = nena.y
+        menu_items = miniMenu.create_menu(miniMenu.create_menu_item(convert_to_text(n_gallina),
+                assets.image("""
+                    miImagen2
+                    """)),
+            miniMenu.create_menu_item(convert_to_text(n_patata),
+                assets.image("""
+                    miImagen3
+                    """)),
+            miniMenu.create_menu_item(convert_to_text(n_cabra),
+                assets.image("""
+                    miImagen4
+                    """)),
+            miniMenu.create_menu_item(convert_to_text(n_huevos),
+                assets.image("""
+                    miImagen5
+                    """)),
+            miniMenu.create_menu_item(convert_to_text(n_caballo),
+                assets.image("""
+                    miImagen6
+                    """)),
+            miniMenu.create_menu_item("Salir"))
+        scene.camera_follow_sprite(menu_items)
+        
+        def on_button_pressed2(selection2, selectedIndex2):
+            global menu_items_activo
+            if selectedIndex2 == 5:
+                menu_items_activo = False
+                crearPlayer(player_x_actual, player_y_actual)
+                menu_items.close()
+        menu_items.on_button_pressed(controller.A, on_button_pressed2)
+        
+controller.menu.on_event(ControllerButtonEvent.PRESSED, on_menu_pressed)
 
 def on_up_pressed():
     animation.run_image_animation(nena,
@@ -50,10 +131,18 @@ def on_up_pressed():
         False)
 controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
 
+def efectuarCompra(núm: number):
+    if info.score() >= núm:
+        info.change_score_by(núm * -1)
+        game.splash("Compra realizada")
+        return 1
+    else:
+        game.splash("No tienes", "suficientes troncos")
+    return 0
 def generar_arbol():
-    global x, y, arbol, arboles_actuales
-    x = randint(1, 7) * 30
-    y = randint(3, 7) * 30
+    global x2, y2, arbol, arboles_actuales
+    x2 = randint(1, 7) * 30
+    y2 = randint(3, 7) * 30
     arbol = sprites.create(img("""
             ................................
             ................................
@@ -89,30 +178,58 @@ def generar_arbol():
             ................ff..............
             """),
         SpriteKind.Tree)
-    arbol.set_position(x, y)
+    arbol.set_position(x2, y2)
     arboles_actuales += 1
-y = 0
-x = 0
+boton_arbol: Sprite = None
+boton_maquina: Sprite = None
+y2 = 0
+x2 = 0
+menu_items: miniMenu.MenuSprite = None
+player_y_actual = 0
+player_x_actual = 0
 arbol: Sprite = None
+menu_maquina: miniMenu.MenuSprite = None
+menu_items_activo = False
+menu_maquina_activa = False
 nena: Sprite = None
+maquina_expendedora: Sprite = None
+n_caballo = 0
+n_huevos = 0
+n_cabra = 0
+n_patata = 0
+n_gallina = 0
 tiles.set_current_tilemap(tilemap("""
     nivel1
     """))
 info.set_score(0)
 arboles_actuales = 0
-menu_activo = False
+n_gallina = 0
+n_patata = 0
+n_cabra = 0
+n_huevos = 0
+n_caballo = 0
 maquina_expendedora = sprites.create(assets.image("""
     miImagen
     """), SpriteKind.Venta)
-nena = sprites.create(assets.image("""
-    nena-front
-    """), SpriteKind.player)
 maquina_expendedora.set_position(59, 25)
-nena.set_position(59, 55)
-scene.camera_follow_sprite(nena)
-controller.move_sprite(nena)
+crearPlayer(59, 45)
 generar_arbol()
 
-def on_forever():
+def on_on_update():
+    global boton_maquina, menu_maquina_activa, boton_arbol
     talarArbol()
-forever(on_forever)
+    if nena.overlaps_with(maquina_expendedora):
+        boton_maquina = sprites.create(assets.image("""
+            miImagen1
+            """), SpriteKind.Button)
+        boton_maquina.set_position(maquina_expendedora.x, maquina_expendedora.y - 10)
+        if controller.A.is_pressed():
+            menu_maquina_activa = True
+    elif nena.overlaps_with(arbol):
+        boton_arbol = sprites.create(assets.image("""
+            miImagen1
+            """), SpriteKind.Button)
+        boton_arbol.set_position(arbol.x, arbol.y)
+    else:
+        sprites.destroy_all_sprites_of_kind(SpriteKind.Button)
+game.on_update(on_on_update)
