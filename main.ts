@@ -68,7 +68,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 function talarArbol () {
     if (arbol.overlapsWith(nena)) {
         if (controller.A.isPressed()) {
-            sprites.destroyAllSpritesOfKind(SpriteKind.Tree)
+            sprites.destroyAllSpritesOfKind(SpriteKind.Tree, effects.disintegrate, 1000)
             sprites.destroyAllSpritesOfKind(SpriteKind.Button)
             info.changeScoreBy(1)
             generar_arbol()
