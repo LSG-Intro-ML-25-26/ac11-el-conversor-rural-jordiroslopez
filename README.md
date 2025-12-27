@@ -1,27 +1,32 @@
-[![Work in MakeCode](https://classroom.github.com/assets/work-in-make-code-8824cc13a1a3f34ffcd245c82f0ae96fdae6b7d554b6539aec3a03a70825519c.svg)](https://classroom.github.com/online_ide?assignment_repo_id=22030621&assignment_repo_type=AssignmentRepo)
- 
+# Conversos rural 🌲🐓
+Videojuego realizado con MakeCode Arcade
 
+## Instrucciones
+Tala los arboles que veas en el mapa para recolectar troncos con los que comprar productos en la maquina expendedora. Puedes ver los productos comprados pulsando el boton de menu para acceder a tu inventario.
 
-> Open this page at [https://raimonizard.github.io/makecode-arcade-template-nena-mov/](https://raimonizard.github.io/makecode-arcade-template-nena-mov/)
+## Capturas de pantalla
+### Mensages iniciales
+<img width="2560" height="1400" alt="Captura de pantalla 2025-12-27 165854" src="https://github.com/user-attachments/assets/24aba58e-cfcc-4aa0-89ba-04f30df84811" />
+<img width="2560" height="1400" alt="Captura de pantalla 2025-12-27 165838" src="https://github.com/user-attachments/assets/beb58a78-2e9c-4790-98c6-842a763307aa" />
 
-## Use as Extension
+### Spawn del jugador
+<img width="2560" height="1400" alt="Captura de pantalla 2025-12-27 165904" src="https://github.com/user-attachments/assets/40e70fff-a85e-4a0b-aa47-c6a46308ce7c" />
 
-This repository can be added as an **extension** in MakeCode.
+### El jugador talando un arbol
+<img width="2560" height="1400" alt="Captura de pantalla 2025-12-27 165922" src="https://github.com/user-attachments/assets/a131ad93-f57b-4b44-8676-a162ebf332a0" />
 
-* open [https://arcade.makecode.com/](https://arcade.makecode.com/)
-* click on **New Project**
-* click on **Extensions** under the gearwheel menu
-* search for **https://github.com/raimonizard/makecode-arcade-template-nena-mov** and import
+### Menu de la maquina expendedora
+<img width="2560" height="1400" alt="Captura de pantalla 2025-12-27 165953" src="https://github.com/user-attachments/assets/19b305ee-bfad-4b64-9c8d-2628200b869d" />
 
-## Edit this project
+### Inventario del jugador
+<img width="2560" height="1400" alt="Captura de pantalla 2025-12-27 170025" src="https://github.com/user-attachments/assets/8622b385-82f5-49f2-92ae-b5206c9a8385" />
 
-To edit this repository in MakeCode.
+### Compra realizada y compra no realizada por saldo insuficiente
+<img width="2560" height="1400" alt="Captura de pantalla 2025-12-27 170004" src="https://github.com/user-attachments/assets/25076fa9-2a21-433e-9d58-4293e01a5564" />
+<img width="2560" height="1400" alt="Captura de pantalla 2025-12-27 170015" src="https://github.com/user-attachments/assets/05f1c3f1-7164-47e3-be96-a1dc1142e184" />
 
-* open [https://arcade.makecode.com/](https://arcade.makecode.com/)
-* click on **Import** then click on **Import URL**
-* paste **https://github.com/raimonizard/makecode-arcade-template-nena-mov** and click import
-
-#### Metadata (used for search, rendering)
-
-* for PXT/arcade
-<script src="https://makecode.com/gh-pages-embed.js"></script><script>makeCodeRender("{{ site.makecode.home_url }}", "{{ site.github.owner_name }}/{{ site.github.repository_name }}");</script>
+## EXTENSIONES USADAS
+MiniMenu
+- descripción: permite generar menus en los que puedes seleccionar opciones.
+- usos: menu de la máquina expededora e inventario del jugador.
+- url: https://github.com/riknoll/arcade-mini-menu
